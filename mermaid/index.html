@@ -1,0 +1,327 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>在Gridea中添加mermaid语法支持 | HEBIN</title>
+<link rel="shortcut icon" href="https://hebinon.dpdns.org/favicon.ico?v=1770039149829">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://hebinon.dpdns.org/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="在Gridea中添加mermaid语法支持 | HEBIN - Atom Feed" href="https://hebinon.dpdns.org/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="介绍如何在文章中添加mermaid语法支持
+
+修改主题文件
+将以下代码粘贴至Gridea站点源文件夹中里post.ejs文件的部分
+例如我的源文件夹是E:\Gridea主题使用的是 gridea-theme-next
+那我这个文件完整路径就..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+    <script>
+    // 加载外部脚本
+    function loadScript(src, callback) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = callback;
+        document.head.appendChild(script);
+    }
+
+    // 初始化Mermaid
+    function initializeMermaid(config) {
+        mermaid.initialize(config);
+    }
+
+    // 渲染单个Mermaid图表
+    function renderMermaidChart(element, index) {
+        let graphDefinition = element.textContent.trim();
+        if (graphDefinition) {
+            let svg = mermaid.render(`ha_mermaid_${index}`, graphDefinition);
+            if (svg) {
+                let svgElement = document.createElement('div');
+                svgElement.innerHTML = svg;
+                svgElement.classList.add('mermaid');
+                svgElement.setAttribute('data-processed', 'true');
+                element.parentNode.replaceChild(svgElement, element);
+            }
+        }
+    }
+
+    // 懒加载Mermaid图表
+    function lazyLoadMermaidCharts() {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    observer.unobserve(entry.target);
+                    renderMermaidChart(entry.target);
+                }
+            });
+        }, { threshold: 0.5 }); // 触发加载的阈值为元素显示50%时
+
+        const elements = document.querySelectorAll(".language-mermaid");
+        elements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+    // 当DOM加载完成时执行
+    document.addEventListener("DOMContentLoaded", function() {
+        // 异步加载Mermaid.js
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js', function() {
+            // Mermaid配置选项
+            const mermaidConfig = {
+                startOnLoad: true,
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }
+            };
+            // 初始化Mermaid
+            initializeMermaid(mermaidConfig);
+            // 懒加载Mermaid图表
+            lazyLoadMermaidCharts();
+        });
+    });
+    </script>
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://hebinon.dpdns.org">
+  <img class="avatar" src="https://hebinon.dpdns.org/images/avatar.png?v=1770039149829" alt="">
+  </a>
+  <h1 class="site-title">
+    HEBIN
+  </h1>
+  <p class="site-description">
+    Explanation Kills Art
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://6337379.xyz" class="menu" target="_blank">
+          文档
+        </a>
+      
+    
+      
+        <a href="/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              在Gridea中添加mermaid语法支持
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-05-20
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>介绍如何在文章中添加mermaid语法支持</p>
+<!-- more -->
+<h1 id="修改主题文件">修改主题文件</h1>
+<p>将以下代码粘贴至Gridea站点源文件夹中里post.ejs文件的<head>部分<br>
+例如我的源文件夹是E:\Gridea主题使用的是 gridea-theme-next<br>
+那我这个文件完整路径就是E:\Gridea\themes\gridea-theme-next\templates\post.ejs</p>
+<pre><code>&lt;script&gt;
+// 加载外部脚本
+function loadScript(src, callback) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.onload = callback;
+    document.head.appendChild(script);
+}
+
+// 初始化Mermaid
+function initializeMermaid(config) {
+    mermaid.initialize(config);
+}
+
+// 渲染单个Mermaid图表
+function renderMermaidChart(element, index) {
+    let graphDefinition = element.textContent.trim();
+    if (graphDefinition) {
+        let svg = mermaid.render(`ha_mermaid_${index}`, graphDefinition);
+        if (svg) {
+            let svgElement = document.createElement('div');
+            svgElement.innerHTML = svg;
+            svgElement.classList.add('mermaid');
+            svgElement.setAttribute('data-processed', 'true');
+            element.parentNode.replaceChild(svgElement, element);
+        }
+    }
+}
+
+// 懒加载Mermaid图表
+function lazyLoadMermaidCharts() {
+    const observer = new IntersectionObserver((entries, observer) =&gt; {
+        entries.forEach(entry =&gt; {
+            if (entry.isIntersecting) {
+                observer.unobserve(entry.target);
+                renderMermaidChart(entry.target);
+            }
+        });
+    }, { threshold: 0.5 }); // 触发加载的阈值为元素显示50%时
+
+    const elements = document.querySelectorAll(&quot;.language-mermaid&quot;);
+    elements.forEach(element =&gt; {
+        observer.observe(element);
+    });
+}
+
+// 当DOM加载完成时执行
+document.addEventListener(&quot;DOMContentLoaded&quot;, function() {
+    // 异步加载Mermaid.js
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js', function() {
+        // Mermaid配置选项
+        const mermaidConfig = {
+            startOnLoad: true,
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true
+            }
+        };
+        // 初始化Mermaid
+        initializeMermaid(mermaidConfig);
+        // 懒加载Mermaid图表
+        lazyLoadMermaidCharts();
+    });
+});
+&lt;/script&gt;
+</code></pre>
+<h1 id="如何引用">如何引用</h1>
+<p>只需在中间添加对应代码即可</p>
+<pre><code>&lt;div class=&quot;mermaid&quot;&gt;
+图表内容
+&lt;/div&gt;
+</code></pre>
+<p>流程图语法示例：</p>
+<pre><code>&lt;div class=&quot;mermaid&quot;&gt;
+graph TD
+  A[开始] --&gt; B{条件判断}
+  B --&gt;|是| C[操作1]
+  B --&gt;|否| D[操作2]
+  C --&gt; E[结束]
+  D --&gt; E
+&lt;/div&gt;
+</code></pre>
+<p>流程图显示为：</p>
+<div class="mermaid">
+graph TD
+  A[开始] --> B{条件判断}
+  B -->|是| C[操作1]
+  B -->|否| D[操作2]
+  C --> E[结束]
+  D --> E
+</div>
+<hr>
+<blockquote>
+<p>本文方法来自于：<a href="https://s1oz.github.io/post/zai-gridaea-zhong-tian-jia-mermaid-zhi-chi-lai-xian-shi-tu-biao/#%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C%E6%97%85%E7%A8%8B%E5%9B%BE%E7%A4%BA%E4%BE%8B">杂乱的杂货铺</a></p>
+</blockquote>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98%E6%96%87%E4%BB%B6">修改主题文件</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%BC%95%E7%94%A8">如何引用</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  Copyright © 2025 hebin. All Rights Reserved.
+  <a class="rss" href="https://hebinon.dpdns.org/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
